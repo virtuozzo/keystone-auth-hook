@@ -1,0 +1,9 @@
+package: k8s.io/kubernetes-keystone-auth
+import:
+- package: github.com/golang/glog
+- package: github.com/mitchellh/mapstructure
+- package: github.com/rackspace/gophercloud
+  version: ~1.0.0
+  subpackages:
+  - openstack
+  - openstack/identity/v3/tokens

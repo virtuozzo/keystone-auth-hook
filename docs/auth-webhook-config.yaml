@@ -1,0 +1,21 @@
+# clusters refers to the remote service.
+clusters:
+  - name: keystone-auth-webhook
+    cluster:
+      certificate-authority: /etc/kubernetes/pki/webhook/ca-bundle.pem  # CA for verifying the remote service.
+      server: https://127.0.0.1:2000/authenticate  # URL of remote service to query. Must use 'https'.
+
+# users refers to the API server's webhook configuration.
+users:
+  - name:  keystone-auth-webhook
+    user:
+      client-certificate:  /etc/kubernetes/pki/webhook/webhook.pem  # cert for the webhook plugin to use
+      client-key: /etc/kubernetes/pki/webhook/webhook.key           # key matching the cert
+
+# kubeconfig files require a context. Provide one for the API server.
+current-context: webhook
+contexts:
+- context:
+    cluster:  keystone-auth-webhook
+    user: name-of-api-sever
+  name: webhook

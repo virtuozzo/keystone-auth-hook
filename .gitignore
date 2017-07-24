@@ -1,0 +1,11 @@
+# Project binary
+build/keystone-auth-hook
+
+# IDEs
+.vscode
+
+# Dependencies
+vendor
+
+# OSX trash
+.DS_Store

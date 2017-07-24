@@ -32,17 +32,25 @@ var certKey = flag.String("keyfile", "", "A PEM encoded private key file.")
 
 func main() {
 	flag.Usage = func() {
-		fmt.Printf("Usage: %s --certfile <path> --keyfile <path> \n\n", os.Args[0])
+		fmt.Fprintf(os.Stderr,
+			"Usage: %s --certfile <path> --keyfile <path> \n\n", os.Args[0])
 		flag.PrintDefaults()
+
+		os.Exit(1)
 	}
 
 	flag.Set("logtostderr", "true")
 	flag.Parse()
 	defer glog.Flush()
 
-	if *certFile == "" || *certKey == "" {
+	if *certFile == "" {
+		fmt.Fprint(os.Stderr, "Please provide a PEM encoded certificate file.\n\n")
 		flag.Usage()
-		os.Exit(1)
+	}
+
+	if *certKey == "" {
+		fmt.Fprint(os.Stderr, "Please provide a PEM encoded private key file.\n\n")
+		flag.Usage()
 	}
 
 	server := &http.Server{Addr: fmt.Sprintf(":%d", *port)}

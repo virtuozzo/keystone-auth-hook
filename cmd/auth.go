@@ -45,7 +45,7 @@ func (hook *authWebhook) ServeHTTP(dst http.ResponseWriter, req *http.Request) {
 	resp := &Payload{}
 	err := json.NewDecoder(req.Body).Decode(resp)
 	if err != nil {
-		glog.Error(err)
+		glog.Errorf("Unable to decode the request: %s", err)
 		dst.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -54,14 +54,14 @@ func (hook *authWebhook) ServeHTTP(dst http.ResponseWriter, req *http.Request) {
 
 	provider, err := keystone.Connect()
 	if err != nil {
-		glog.Error(err)
+		glog.Errorf("Unable to connect to Keystone: %s", err)
 		dst.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	token, err := keystone.GetToken(provider, resp.Spec.Token)
 	if err != nil {
-		glog.Error(err)
+		glog.Errorf("Failed to verify the token: %s", err)
 		dst.WriteHeader(http.StatusUnauthorized)
 		return
 	}

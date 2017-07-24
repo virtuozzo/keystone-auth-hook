@@ -62,7 +62,11 @@ func main() {
 	http.Handle("/authenticate", newAuthWebhook())
 
 	glog.Infof("Serving on :%d", *port)
-	glog.Fatal(server.ListenAndServeTLS(*certFile, *certKey))
+
+	err := server.ListenAndServeTLS(*certFile, *certKey)
+	if err != nil {
+		glog.Fatalf("Failed to start TLS server: %s", err)
+	}
 
 	os.Exit(0)
 }

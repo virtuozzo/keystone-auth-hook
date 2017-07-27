@@ -43,13 +43,15 @@ type Status struct {
 	// Authentication result.
 	Authenticated bool `json:"authenticated"`
 
-	// Provides basic user information required for
-	// successful authentication.
-	User struct {
-		Username string   `json:"username,omitempty"`
-		UID      string   `json:"uid,omitempty"`
-		Groups   []string `json:"groups,omitempty"`
-	}
+	User User `json:"user"`
+}
+
+// Provides basic user information required for
+// successful authentication.
+type User struct {
+	Username string   `json:"username,omitempty"`
+	UID      string   `json:"uid,omitempty"`
+	Groups   []string `json:"groups,omitempty"`
 }
 
 func (p *Payload) String() string {

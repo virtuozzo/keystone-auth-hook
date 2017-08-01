@@ -1,5 +1,14 @@
 # Kubernetes keystone authentication webhook
 
+- [Kubernetes keystone authentication webhook](#kubernetes-keystone-authentication-webhook)
+    - [Prerequisites](#prerequisites)
+    - [Limitations](#limitations)
+    - [Build instructions](#build-instructions)
+        - [Docker image](#docker-image)
+        - [Basic executable](#basic-executable)
+    - [Local testing](#local-testing)
+    - [Kubernetes setup](#kubernetes-setup)
+    - [License](#license)
 
 ## Prerequisites
 1. Docker.
@@ -15,12 +24,32 @@
 
 
 ## Build instructions
+### Docker image
 ```bash
-# Build docker image
-$ make
+$ make docker
 
 # Start the webhook from the newly built image
-$ docker run -it --rm -p 2000 --name keystone-auth-hook --hostname keystone-auth-hook.sw.ru keystone-auth-hook
+$ docker create -it --rm -p 2000:2000 -e OS_AUTH_URL="http://<address>:<port>/v3" -e OS_USERNAME="admin" -e OS_PASSWORD="password" -e OS_DOMAIN_ID="default" --name  keystone-auth-hook keystone-auth-hook
+```
+
+### Basic executable
+```bash
+# Build for Linux
+$ make
+
+# Specify GOOS env variable to build for other platforms,
+# e.g. to build for OSX
+$ GOOS=darwin make
+
+# Prepare environemnt
+$ export OS_AUTH_URL="http://<address>:<port>/v3"
+$ export OS_USERNAME="admin"
+$ export OS_PASSWORD="password"
+$ export OS_DOMAIN_ID="default"
+
+# Run auth hook
+$ cd build
+$ ./keystone-auth-hook --certfile webhook.pem --keyfile webhook.key
 ```
 
 

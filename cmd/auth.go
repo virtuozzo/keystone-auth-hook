@@ -22,7 +22,7 @@ import (
 
 	"github.com/golang/glog"
 
-	"k8s.io/kubernetes-keystone-auth/api/keystone"
+	"k8s.io/keystone-auth-hook/api/keystone"
 )
 
 // authWebhook responds to authentication requests from K8s

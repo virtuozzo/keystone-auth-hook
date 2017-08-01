@@ -46,7 +46,7 @@ type Status struct {
 	User User `json:"user"`
 }
 
-// Provides basic user information required for
+// User provides basic user information required for
 // successful authentication.
 type User struct {
 	Username string   `json:"username,omitempty"`
